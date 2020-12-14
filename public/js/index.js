@@ -19,7 +19,9 @@ var ListBooks = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (ListBooks.__proto__ || Object.getPrototypeOf(ListBooks)).call(this, props));
 
 		_this.handleSubmit = _this.handleSubmit.bind(_this);
-		_this.state = { books: [] };
+		_this.state = {
+			books: []
+		};
 		_this.removeBooks = _this.removeBooks.bind(_this);
 		_this.getrandombook = _this.getrandombook.bind(_this);
 		return _this;
@@ -52,7 +54,7 @@ var ListBooks = function (_React$Component) {
 		key: 'getrandombook',
 		value: function getrandombook(e) {
 			var random = Math.floor(Math.random() * (this.state.books.length - 0) + 0);
-			alert(this.state.books[random].title + '  |  ' + this.state.books[random].author);
+			alert(this.state.books[random].getDescription());
 		}
 	}, {
 		key: 'render',
@@ -132,12 +134,23 @@ var ListBooks = function (_React$Component) {
 	return ListBooks;
 }(React.Component);
 
-var Book = function Book(title, author) {
-	_classCallCheck(this, Book);
+var Book = function () {
+	function Book(title, author) {
+		_classCallCheck(this, Book);
 
-	this.title = title;
-	this.author = author;
-};
+		this.title = title;
+		this.author = author;
+	}
+
+	_createClass(Book, [{
+		key: 'getDescription',
+		value: function getDescription() {
+			return 'Title: ' + this.title + '\nAuthor: ' + this.author;
+		}
+	}]);
+
+	return Book;
+}();
 
 ListBooks.defaultProps = {
 	title: 'Consejero'

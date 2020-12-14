@@ -2,7 +2,9 @@ class ListBooks extends React.Component {
 	constructor(props) {
 		super(props)
 		this.handleSubmit = this.handleSubmit.bind(this)
-		this.state = {books:[]}
+		this.state = {
+			books:[]
+		}
 		this.removeBooks = this.removeBooks.bind(this)
 		this.getrandombook = this.getrandombook.bind(this)
 	}
@@ -28,7 +30,7 @@ class ListBooks extends React.Component {
 
 	getrandombook(e){
 		const random = Math.floor(Math.random() * (this.state.books.length - 0) + 0)
-		alert(`${this.state.books[random].title}  |  ${this.state.books[random].author}`)
+		alert(this.state.books[random].getDescription())
 	}
 
 	render(){
@@ -59,6 +61,9 @@ class Book{
 	constructor(title,author){
 		this.title = title
 		this.author = author
+	}
+	getDescription(){
+		return `Title: ${this.title}\nAuthor: ${this.author}`
 	}
 }
 

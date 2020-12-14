@@ -16,7 +16,7 @@ class ListBooks extends React.Component {
 			const newBook = new Book(e.target.elements.newBookTitle.value,author)
 			const booksString = this.state.books.map(book => JSON.stringify(book))
 			if(!booksString.includes(JSON.stringify(newBook))){
-				this.setState({books: [...this.state.books, newBook]})
+				this.setState(prevState => {books: [...prevState.books, newBook]})
 				ReactDOM.render(<ListBooks />,document.querySelector('.appReact'))
 			}
 			e.target.reset()

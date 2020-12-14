@@ -38,7 +38,9 @@ var ListBooks = function (_React$Component) {
 					return JSON.stringify(book);
 				});
 				if (!booksString.includes(JSON.stringify(newBook))) {
-					this.setState({ books: [].concat(_toConsumableArray(this.state.books), [newBook]) });
+					this.setState(function (prevState) {
+						books: [].concat(_toConsumableArray(prevState.books), [newBook]);
+					});
 					ReactDOM.render(React.createElement(ListBooks, null), document.querySelector('.appReact'));
 				}
 				e.target.reset();

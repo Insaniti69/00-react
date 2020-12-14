@@ -2,47 +2,7 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var getIp = function () {
-	var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-		var data, regex, ip, dataIp, countryName;
-		return regeneratorRuntime.wrap(function _callee$(_context) {
-			while (1) {
-				switch (_context.prev = _context.next) {
-					case 0:
-						_context.next = 2;
-						return axios.get('https://www.cloudflare.com/cdn-cgi/trace');
-
-					case 2:
-						data = _context.sent;
-						regex = /ip=(.*?)$/gmi;
-						ip = regex.exec(data.data);
-						_context.next = 7;
-						return axios.get('http://api.ipstack.com/' + ip[1] + '?access_key=479532addda6a49c78cd6860c0f9ffb4&format=1');
-
-					case 7:
-						dataIp = _context.sent;
-						_context.next = 10;
-						return getCountryInfo(dataIp.data.country_code);
-
-					case 10:
-						countryName = _context.sent;
-
-						h1.textContent = 'Your ip ' + ip[1] + ' is located in ' + countryName.data.name;
-
-					case 12:
-					case 'end':
-						return _context.stop();
-				}
-			}
-		}, _callee, this);
-	}));
-
-	return function getIp() {
-		return _ref.apply(this, arguments);
-	};
-}();
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -50,84 +10,137 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var reactSection = document.querySelector('#react-section');
-var h1 = document.querySelector('h1');
+var ListBooks = function (_React$Component) {
+	_inherits(ListBooks, _React$Component);
 
-var CodeCountry = function (_React$Component) {
-	_inherits(CodeCountry, _React$Component);
+	function ListBooks(props) {
+		_classCallCheck(this, ListBooks);
 
-	function CodeCountry() {
-		_classCallCheck(this, CodeCountry);
+		var _this = _possibleConstructorReturn(this, (ListBooks.__proto__ || Object.getPrototypeOf(ListBooks)).call(this, props));
 
-		return _possibleConstructorReturn(this, (CodeCountry.__proto__ || Object.getPrototypeOf(CodeCountry)).apply(this, arguments));
+		_this.handleSubmit = _this.handleSubmit.bind(_this);
+		_this.state = { books: [] };
+		_this.removeBooks = _this.removeBooks.bind(_this);
+		_this.getrandombook = _this.getrandombook.bind(_this);
+		return _this;
 	}
 
-	_createClass(CodeCountry, [{
+	_createClass(ListBooks, [{
+		key: 'handleSubmit',
+		value: function handleSubmit(e) {
+			e.preventDefault();
+			if (e.target.elements.newBookTitle.value !== '') {
+				var author = e.target.elements.newBookAuthor.value !== '' ? e.target.elements.newBookAuthor.value : 'Anon';
+				var newBook = new Book(e.target.elements.newBookTitle.value, author);
+				var booksString = this.state.books.map(function (book) {
+					return JSON.stringify(book);
+				});
+				if (!booksString.includes(JSON.stringify(newBook))) {
+					this.setState({ books: [].concat(_toConsumableArray(this.state.books), [newBook]) });
+					ReactDOM.render(React.createElement(ListBooks, null), document.querySelector('.appReact'));
+				}
+				e.target.reset();
+			}
+		}
+	}, {
+		key: 'removeBooks',
+		value: function removeBooks(e) {
+			this.state.books = [];
+			ReactDOM.render(React.createElement(ListBooks, null), document.querySelector('.appReact'));
+		}
+	}, {
+		key: 'getrandombook',
+		value: function getrandombook(e) {
+			var random = Math.floor(Math.random() * (this.state.books.length - 0) + 0);
+			alert(this.state.books[random].title + '  |  ' + this.state.books[random].author);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return React.createElement(
 				'div',
 				null,
 				React.createElement(
+					'h1',
+					null,
+					this.props.title
+				),
+				React.createElement(
 					'h2',
 					null,
-					'CODE ',
-					this.props.code
+					'List of books available right now'
 				),
 				React.createElement(
 					'p',
 					null,
-					this.props.countryName
+					this.state.books.length,
+					' Books'
+				),
+				React.createElement(
+					'ul',
+					null,
+					this.state.books.map(function (book, i) {
+						return React.createElement(
+							'li',
+							{ key: 'bookTitle ' + i },
+							book.title,
+							' | ',
+							book.author
+						);
+					})
+				),
+				React.createElement(
+					'form',
+					{ onSubmit: this.handleSubmit },
+					React.createElement(
+						'label',
+						null,
+						'Enter name of the new book'
+					),
+					React.createElement('input', { type: 'text', name: 'newBookTitle', id: 'newBookTitle' }),
+					React.createElement(
+						'label',
+						null,
+						'Enter author of the new book'
+					),
+					React.createElement('input', { type: 'text', name: 'newBookAuthor', id: 'newBookAuthor' }),
+					React.createElement(
+						'button',
+						{ className: 'addBook' },
+						'Add book'
+					)
+				),
+				React.createElement(
+					'p',
+					null,
+					this.state.count
+				),
+				React.createElement(
+					'button',
+					{ className: 'addBook', onClick: this.removeBooks },
+					'Remove all books'
+				),
+				React.createElement(
+					'button',
+					{ className: 'addBook', onClick: this.getrandombook },
+					'Get recomendation'
 				)
 			);
 		}
 	}]);
 
-	return CodeCountry;
+	return ListBooks;
 }(React.Component);
 
-function getCountryInfo(code) {
-	return axios.get('https://restcountries.eu/rest/v2/alpha/' + code);
-}
+var Book = function Book(title, author) {
+	_classCallCheck(this, Book);
 
-var getCountry = function () {
-	var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
-		var code, res;
-		return regeneratorRuntime.wrap(function _callee2$(_context2) {
-			while (1) {
-				switch (_context2.prev = _context2.next) {
-					case 0:
-						_context2.prev = 0;
-						code = e.value;
-						_context2.next = 4;
-						return getCountryInfo(e.value);
+	this.title = title;
+	this.author = author;
+};
 
-					case 4:
-						res = _context2.sent;
+ListBooks.defaultProps = {
+	title: 'Consejero'
+};
 
-						if (res.data.alpha2Code.toLowerCase() === code.toLowerCase()) {
-							ReactDOM.render(React.createElement(CodeCountry, { code: code, countryName: res.data.name }), reactSection);
-						}
-						_context2.next = 11;
-						break;
-
-					case 8:
-						_context2.prev = 8;
-						_context2.t0 = _context2['catch'](0);
-
-						ReactDOM.render(React.createElement(CodeCountry, { code: 'Not Found', countryName: 'Not Found' }), reactSection);
-
-					case 11:
-					case 'end':
-						return _context2.stop();
-				}
-			}
-		}, _callee2, undefined, [[0, 8]]);
-	}));
-
-	return function getCountry(_x) {
-		return _ref2.apply(this, arguments);
-	};
-}();
-
-getIp();
+ReactDOM.render(React.createElement(ListBooks, { title: "Consejero Libros" }), document.querySelector('.appReact'));

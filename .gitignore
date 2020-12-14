@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node,react
-# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,node,react
+# Created by https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,node
 
 ### Node ###
 # Logs
@@ -114,19 +114,6 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-### react ###
-.DS_*
-**/*.backup.*
-**/*.back.*
-
-node_modules
-
-*.sublime*
-
-psd
-thumb
-sketch
-
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/tasks.json
@@ -164,7 +151,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node,react
+# End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
+git commit -m "first commit"

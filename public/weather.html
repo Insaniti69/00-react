@@ -10,12 +10,18 @@
 		<h1>JS TEST</h1>
 	</header>
 	<main>
-		<div class="appReact"></div>
+		<h1></h1>
+		<br /><br />
+		<div id="react-section">
+		</div>
+		<label for="textCode">Write ID country</label><br />
+		<input onkeyup="getCountry(this)" type="text" id="textCode" name="textCode">
 	</main>
 	<footer></footer>
 	<script src="./libs/polyfill.min.js"></script>
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-	<script src="/js/index.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/js/weather.js"></script>
 </body>
 </html>
